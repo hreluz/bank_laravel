@@ -18,4 +18,12 @@ class Company extends Model
     {
         return $this->belongsTo(User::class,'owner_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function bank_account()
+    {
+        return $this->hasOne(BankAccount::class);
+    }
 }

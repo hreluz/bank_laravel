@@ -5,7 +5,7 @@ namespace Tests\Feature\Company;
 use App\Models\User;
 use Tests\BaseApiTestCase;
 
-class StoreControllerTest extends BaseApiTestCase
+class CompanyStoreControllerTest extends BaseApiTestCase
 {
     use CompanyStructureTrait;
 
@@ -18,17 +18,15 @@ class StoreControllerTest extends BaseApiTestCase
         $this->authAs($user);
         $company_name = 'Company Name';
 
-        $response = $this->postJson(route('api.v1.companies.store'), [
+        $this->postJson(route('api.v1.companies.store'), [
             'name' => $company_name
-        ]);
-
-        $response->assertOk();
-
-        $response->assertJsonStructure([
-            'data'  => [
-                'company' => $this->companyStructure()
-            ]
-        ]);
+        ])
+            ->assertOk()
+            ->assertJsonStructure([
+                'data'  => [
+                    'company' => $this->companyStructure()
+                ]
+            ]);
 
         $this->assertDatabaseHas('companies', [
             'name' => $company_name,

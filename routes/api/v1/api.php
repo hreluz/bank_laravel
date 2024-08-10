@@ -21,6 +21,13 @@ Route::group([
                 Route::post('', [\App\Http\Controllers\Api\v1\Company\StoreController::class, 'store'])
                     ->name('store');
             });
+
+        Route::name('bank_accounts.')
+            ->group(function () {
+
+                Route::post('', [\App\Http\Controllers\Api\v1\BankAccount\StoreController::class, 'store'])
+                    ->name('store');
+            });
     });
 });
 

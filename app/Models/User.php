@@ -52,4 +52,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Company::class, 'owner_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function bank_account()
+    {
+        return $this->hasOne(BankAccount::class, 'owner_id');
+    }
 }
