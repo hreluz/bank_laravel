@@ -14,6 +14,13 @@ Route::group([
 
     Route::group(['middleware' => ['auth:sanctum']], function(){
         Route::get('/authenticated', fn () => 'You are authenticated')->name('auth.authenticated');
+
+        Route::name('companies.')
+            ->group(function () {
+
+                Route::post('', [\App\Http\Controllers\Api\v1\Company\StoreController::class, 'store'])
+                    ->name('store');
+            });
     });
 });
 

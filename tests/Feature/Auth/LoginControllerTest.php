@@ -4,12 +4,11 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
+use Tests\BaseApiTestCase;
 
-class LoginControllerTest extends TestCase
+class LoginControllerTest extends BaseApiTestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, UserStructureTrait;
 
     /**
      * @return void
@@ -22,19 +21,29 @@ class LoginControllerTest extends TestCase
             'password' => '123123'
         ])->assertOk();
 
-        $response = $this->postJson(route('api.v1.login'),[
+        $this->postJson(route('api.v1.login'),[
             'email'  => 'someone@gmail.com',
             'password' => '123123'
+        ]) ->assertOk()
+            ->assertJsonStructure([
+            'data' => [
+                'access_token',
+                'expires_in_seconds',
+                'user' => $this->userStructure() ,
+            ]
         ]);
 
-        $response->assertOk();
+
     }
 
+    /**
+     * @return void
+     */
     public function test_is_authenticated()
     {
         $user = User::factory()->create(['password' => '123123']);
 
-        Sanctum::actingAs($user);
+        $this->authAs($user);
 
         $response = $this->getJson(route('api.v1.auth.authenticated'));
 

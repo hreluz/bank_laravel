@@ -5,16 +5,16 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\JsonResponse;
-use Tests\TestCase;
+use Tests\BaseApiTestCase;
 
-class RegisterControllerTest extends TestCase
+class RegisterControllerTest extends BaseApiTestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, UserStructureTrait;
 
     /**
-     * @test
+     * @return void
      */
-    public function it_allows_user_to_register()
+    public function test_it_allows_user_to_register()
     {
         $name = 'James';
         $email = 'jbond@gmail.com';
@@ -31,10 +31,7 @@ class RegisterControllerTest extends TestCase
 
         $response->assertJsonStructure([
             'data' => [
-                'user' => [
-                    'name',
-                    'email',
-                ]
+                'user' => $this->userStructure()
             ]
         ]);
 
@@ -58,15 +55,15 @@ class RegisterControllerTest extends TestCase
     }
 
     /**
-     * @test
+     * @return void
      */
-    public function it_validates_empty_fields_when_registering() {
+    public function test_it_validates_empty_fields_when_registering() {
         $response = $this->postJson(route('api.v1.users.register'), []);
         $response->assertStatus(422);
     }
 
     /**
-     * @test
+     * @return void
      */
     public function it_does_not_allow_to_register_existing_email() {
         $email = 'lavoe@gmail.com';
