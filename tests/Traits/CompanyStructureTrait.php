@@ -1,8 +1,6 @@
 <?php
 
-namespace Tests\Feature\Company;
-
-use Tests\Feature\Auth\UserStructureTrait;
+namespace Tests\Traits;
 
 trait CompanyStructureTrait {
 

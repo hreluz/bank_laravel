@@ -5,6 +5,7 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\BaseApiTestCase;
+use Tests\Traits\UserStructureTrait;
 
 class LoginControllerTest extends BaseApiTestCase
 {

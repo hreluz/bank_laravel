@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Services\BankAccountService;
 use Tests\BaseApiTestCase;
+use Tests\Traits\BankAccountStructureTrait;
 
 class BankAccountStoreControllerTest extends BaseApiTestCase
 {

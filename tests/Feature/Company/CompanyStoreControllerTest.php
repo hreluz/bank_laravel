@@ -4,6 +4,7 @@ namespace Tests\Feature\Company;
 
 use App\Models\User;
 use Tests\BaseApiTestCase;
+use Tests\Traits\CompanyStructureTrait;
 
 class CompanyStoreControllerTest extends BaseApiTestCase
 {

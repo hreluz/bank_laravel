@@ -16,6 +16,7 @@ Route::group([
         Route::get('/authenticated', fn () => 'You are authenticated')->name('auth.authenticated');
 
         Route::name('companies.')
+            ->prefix('companies')
             ->group(function () {
 
                 Route::post('', [\App\Http\Controllers\Api\v1\Company\StoreController::class, 'store'])
@@ -23,9 +24,18 @@ Route::group([
             });
 
         Route::name('bank_accounts.')
+            ->prefix('bank_accounts')
             ->group(function () {
 
                 Route::post('', [\App\Http\Controllers\Api\v1\BankAccount\StoreController::class, 'store'])
+                    ->name('store');
+            });
+
+        Route::name('transactions.')
+            ->prefix('transactions')
+            ->group(function () {
+
+                Route::post('{bank_account}', [\App\Http\Controllers\Api\v1\Transactions\StoreController::class, 'store'])
                     ->name('store');
             });
     });

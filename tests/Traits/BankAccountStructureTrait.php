@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\BankAccount;
+namespace Tests\Traits;
 
 trait BankAccountStructureTrait {
     /**

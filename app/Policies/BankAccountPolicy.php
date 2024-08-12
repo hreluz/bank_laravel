@@ -15,7 +15,9 @@ class BankAccountPolicy
     }
 
     /**
-     * Determine if the given post can be updated by the user.
+     * @param User $user
+     * @param $company_id
+     * @return bool
      */
     public function create(User $user, $company_id = null): bool
     {

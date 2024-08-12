@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\JsonResponse;
 use Tests\BaseApiTestCase;
+use Tests\Traits\UserStructureTrait;
 
 class RegisterControllerTest extends BaseApiTestCase
 {
