@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\Reports\TransactionsReportController;
 use App\Http\Controllers\Api\v1\Auth\{LoginController, RegisterController};
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,14 @@ Route::group([
 
                 Route::post('{bank_account}', [\App\Http\Controllers\Api\v1\Transactions\StoreController::class, 'store'])
                     ->name('store');
+            });
+
+        Route::name('reports.')
+            ->prefix('reports')
+            ->group(function () {
+
+                Route::get('', [TransactionsReportController::class, 'clientsFilteredTransactionsByMonth'])
+                    ->name('clients.filtered.transactions.by.month');
             });
     });
 });

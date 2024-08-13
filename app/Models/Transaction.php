@@ -14,13 +14,27 @@ class Transaction extends Model
     const TYPE_ADD = 'ADD';
     const TYPE_SUBTRACT = 'SUBTRACT';
 
+    /**
+     * @return mixed
+     */
     public function getDateAttribute()
     {
         return $this->created_at->format('Y-m-d');
     }
 
+    /**
+     * @return mixed
+     */
     public function getTimeAttribute()
     {
         return $this->created_at->format('H:i:s');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function bank_account()
+    {
+        return $this->belongsTo(Transaction::class);
     }
 }

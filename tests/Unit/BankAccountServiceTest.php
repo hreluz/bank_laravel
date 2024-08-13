@@ -24,8 +24,7 @@ class BankAccountServiceTest extends TestCase
         $this->bankAccountService = new BankAccountService();
     }
 
-    /** @test */
-    public function it_can_create_a_bank_account_as_a_user()
+    public function test_it_can_create_a_bank_account_as_a_user()
     {
         $user = User::factory()->create();
 
@@ -39,8 +38,8 @@ class BankAccountServiceTest extends TestCase
             'company_id' => null
         ]);
     }
-    /** @test */
-    public function it_can_create_only_one_bank_account_as_a_user()
+
+    public function test_it_can_create_only_one_bank_account_as_a_user()
     {
         $user = User::factory()->create();
 
@@ -52,8 +51,7 @@ class BankAccountServiceTest extends TestCase
         $this->bankAccountService->createAccount($user);
     }
 
-    /** @test */
-    public function it_can_create_a_bank_account_for_a_company()
+    public function test_it_can_create_a_bank_account_for_a_company()
     {
         $user = User::factory()->create();
         $company = Company::factory()->create(['owner_id' => $user->id]);
@@ -69,8 +67,7 @@ class BankAccountServiceTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_can_create_only_one_bank_account_for_a_company()
+    public function test_it_can_create_only_one_bank_account_for_a_company()
     {
         $user = User::factory()->create();
         $company = Company::factory()->create(['owner_id' => $user->id]);
