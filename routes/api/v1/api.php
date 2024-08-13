@@ -55,6 +55,9 @@ Route::group([
 
                 Route::get('transactions-filtered-by-10k-and-city', [TransactionsReportController::class, 'transactionsFilteredBy10kAndCity'])
                     ->name(  'transactions.filtered.by.10k.and.city');
+
+                Route::get('balance-annual/{bank_account}', [\App\Http\Controllers\Api\v1\Reports\BankAccountAnnualBalanceController::class, 'get'])
+                    ->name(  'bank_accounts.balance.annual');
             });
     });
 });
