@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Resources\Reports\ClientListMonthCollection;
+use App\Http\Resources\Reports\Transactions10KCollection;
 use App\Models\BankAccount;
 use App\Models\Transaction;
 use Carbon\Carbon;
@@ -36,5 +37,25 @@ class TransactionRepository
             ->get();
 
         return new ClientListMonthCollection($transactions, $bank_accounts);
+    }
+
+    public function transactionsFilteredBy10kAndCity()
+    {
+        $query = Transaction::query();
+
+        $transactions = $query
+            ->selectRaw('
+                    bank_account_id,
+                    SUM(CASE WHEN type = "SUBTRACT" THEN amount ELSE 0 END) as total_withdrawal')
+            ->join('bank_accounts', 'bank_accounts.id', '=', 'transactions.bank_account_id')
+            ->whereColumn('bank_accounts.city', '!=', 'transactions.city')
+            ->groupBy('bank_account_id')
+            ->get();
+
+        $bank_accounts = BankAccount::with('owner')
+            ->whereIn('id', $transactions->pluck('bank_account_id'))
+            ->get();
+
+        return new Transactions10KCollection($transactions, $bank_accounts);
     }
 }

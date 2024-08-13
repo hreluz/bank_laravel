@@ -9,7 +9,7 @@ use App\Services\TransactionService;
 use Carbon\Carbon;
 use Tests\BaseApiTestCase;
 
-class TransactionReportControllerTest extends BaseApiTestCase
+class TransactionReportByMonthTest extends BaseApiTestCase
 {
     protected TransactionService $transactionService;
 

@@ -44,8 +44,11 @@ Route::group([
             ->prefix('reports')
             ->group(function () {
 
-                Route::get('', [TransactionsReportController::class, 'clientsFilteredTransactionsByMonth'])
+                Route::get('clients-filtered-transactions-by-month', [TransactionsReportController::class, 'clientsFilteredTransactionsByMonth'])
                     ->name('clients.filtered.transactions.by.month');
+
+                Route::get('transactions-filtered-by-10k-and-city', [TransactionsReportController::class, 'transactionsFilteredBy10kAndCity'])
+                    ->name(  'transactions.filtered.by.10k.and.city');
             });
     });
 });

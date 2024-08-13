@@ -20,13 +20,27 @@ class TransactionService
         $this->owner = $owner;
     }
 
+    /**
+     * @param User $owner
+     * @return void
+     */
     public function setOwner(User $owner)
     {
         $this->owner = $owner;
     }
 
+    /**
+     * @param BankAccount $bank_account
+     * @param array $fields
+     * @return mixed
+     * @throws \Exception
+     */
     public function doTransaction(BankAccount $bank_account, array $fields)
     {
+        if(empty($fields['amount']) || empty($fields['type']) || empty($fields['city'])) {
+            throw new \Exception('fields amount, type and city are required');
+        }
+
         $amount = $fields['amount'];
         $type = $fields['type'];
         $city = $fields['city'];
@@ -55,5 +69,4 @@ class TransactionService
             return [true, $transaction];
         });
     }
-
 }

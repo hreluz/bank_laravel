@@ -16,4 +16,9 @@ class TransactionsReportController extends Controller
 
         return (new TransactionRepository())->clientsFilteredTransactionsByMonth($validated['month']);
     }
+
+    public function transactionsFilteredBy10kAndCity(Request $request)
+    {
+        return (new TransactionRepository())->transactionsFilteredBy10kAndCity();
+    }
 }
