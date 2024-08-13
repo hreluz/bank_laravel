@@ -20,6 +20,7 @@ class TransactionFactory extends Factory
     {
         return [
             'amount' => rand(1, 1000),
+            'city' => fake()->city(),
             'type' => fake()->randomElement([Transaction::TYPE_ADD, Transaction::TYPE_SUBTRACT]),
             'bank_account_id' => fn() => BankAccount::factory()->create()->id
         ];

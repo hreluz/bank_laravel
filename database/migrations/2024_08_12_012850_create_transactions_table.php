@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->integer('amount');
+            $table->string('city');
             $table->enum('type', [Transaction::TYPE_ADD, Transaction::TYPE_SUBTRACT]);
             $table->unsignedBigInteger('bank_account_id')->nullable();
             $table->foreign('bank_account_id')->references('id')->on('bank_accounts');

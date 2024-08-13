@@ -21,6 +21,7 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->postJson(route('api.v1.transactions.store', $bank_account->id), [
             'amount' => 100.0,
             'type' => Transaction::TYPE_ADD,
+            'city' => 'Lima'
         ])
             ->assertOk()
             ->assertJsonStructure([
@@ -37,7 +38,8 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->assertDatabaseHas('transactions', [
             'amount' => 100,
             'type' => Transaction::TYPE_ADD,
-            'bank_account_id' => $bank_account->id
+            'bank_account_id' => $bank_account->id,
+            'city' => 'Lima'
         ]);
 
         $this->assertDatabaseCount('transactions', 1);
@@ -59,6 +61,7 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->postJson(route('api.v1.transactions.store', $bank_account->id), [
             'amount' => 100.0,
             'type' => Transaction::TYPE_SUBTRACT,
+            'city' => 'Madrid'
         ])
             ->assertOk()
             ->assertJsonStructure([
@@ -70,7 +73,8 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->assertDatabaseHas('transactions', [
             'amount' => 100,
             'type' => Transaction::TYPE_SUBTRACT,
-            'bank_account_id' => $bank_account->id
+            'bank_account_id' => $bank_account->id,
+            'city' => 'Madrid'
         ]);
 
         $this->assertDatabaseCount('transactions', 1);
@@ -92,6 +96,7 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->postJson(route('api.v1.transactions.store', $bank_account->id), [
             'amount' => 100.0,
             'type' => Transaction::TYPE_ADD,
+            'city' => 'Asuncion'
         ])
             ->assertOk()
             ->assertJsonStructure([
@@ -103,7 +108,8 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->assertDatabaseHas('transactions', [
             'amount' => 100,
             'type' => Transaction::TYPE_ADD,
-            'bank_account_id' => $bank_account->id
+            'bank_account_id' => $bank_account->id,
+            'city' => 'Asuncion'
         ]);
 
         $this->assertDatabaseCount('transactions', 1);
@@ -125,6 +131,7 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->postJson(route('api.v1.transactions.store', $bank_account->id), [
             'amount' => 100.0,
             'type' => Transaction::TYPE_SUBTRACT,
+            'city' => 'Sydney'
         ])
             ->assertOk()
             ->assertJsonStructure([
@@ -136,7 +143,8 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->assertDatabaseHas('transactions', [
             'amount' => 100,
             'type' => Transaction::TYPE_SUBTRACT,
-            'bank_account_id' => $bank_account->id
+            'bank_account_id' => $bank_account->id,
+            'city' => 'Sydney'
         ]);
 
         $this->assertDatabaseCount('transactions', 1);
@@ -158,6 +166,7 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->postJson(route('api.v1.transactions.store', $bank_account->id), [
             'amount' => -100.0,
             'type' => Transaction::TYPE_SUBTRACT,
+            'city' => 'Madrid'
         ])->assertUnprocessable();
     }
 
@@ -170,6 +179,7 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->postJson(route('api.v1.transactions.store', $bank_account->id), [
             'amount' => 100.0,
             'type' => Transaction::TYPE_SUBTRACT,
+            'city' => 'Madrid'
         ])->assertForbidden();
     }
 
@@ -181,6 +191,7 @@ class TransactionStoreControllerTest extends BaseApiTestCase
         $this->postJson(route('api.v1.transactions.store', $bank_account->id), [
             'amount' => 100.0,
             'type' => 'HELLO',
+            'city' => 'Madrid'
         ])->assertUnprocessable();
     }
 }

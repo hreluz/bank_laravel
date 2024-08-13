@@ -36,31 +36,53 @@ class TransactionReportControllerTest extends BaseApiTestCase
         $bank_account5 = BankAccount::find($n1 + 89);
 
         $this->transactionService->setOwner($bank_account1->owner);
-        $this->transactionService->doTransaction($bank_account1, Transaction::TYPE_ADD, 500);
-        $this->transactionService->doTransaction($bank_account1, Transaction::TYPE_ADD, 1000);
+        $this->transactionService->doTransaction($bank_account1, [
+            'type' => Transaction::TYPE_ADD, 'amount' => 500, 'city' => 'CDMX'
+        ]);
+        $this->transactionService->doTransaction($bank_account1,  [
+            'type' => Transaction::TYPE_ADD, 'amount' => 1000, 'city' => 'CDMX'
+        ]);
 
         $this->transactionService->setOwner($bank_account2->owner);
-        $this->transactionService->doTransaction($bank_account2, Transaction::TYPE_ADD, 99);
+        $this->transactionService->doTransaction($bank_account2,  [
+            'type' => Transaction::TYPE_ADD, 'amount' => 99, 'city' => 'CDMX'
+        ]);
 
         $this->transactionService->setOwner($bank_account1->owner);
-        $this->transactionService->doTransaction($bank_account1, Transaction::TYPE_SUBTRACT, 30);
+        $this->transactionService->doTransaction($bank_account1,  [
+            'type' => Transaction::TYPE_SUBTRACT, 'amount' => 30, 'city' => 'CDMX'
+        ]);
 
         $this->transactionService->setOwner($bank_account3->owner);
-        $this->transactionService->doTransaction($bank_account3, Transaction::TYPE_ADD, 72);
+        $this->transactionService->doTransaction($bank_account3,  [
+            'type' => Transaction::TYPE_ADD, 'amount' => 72, 'city' => 'CDMX'
+        ]);
 
         $this->transactionService->setOwner($bank_account4->owner);
-        $this->transactionService->doTransaction($bank_account4, Transaction::TYPE_ADD, 67000);
+        $this->transactionService->doTransaction($bank_account4,  [
+            'type' => Transaction::TYPE_ADD, 'amount' => 67000, 'city' => 'CDMX'
+        ]);
 
         $this->transactionService->setOwner($bank_account2->owner);
-        $this->transactionService->doTransaction($bank_account2, Transaction::TYPE_ADD, 1);
-        $this->transactionService->doTransaction($bank_account2, Transaction::TYPE_SUBTRACT, 19);
-        $this->transactionService->doTransaction($bank_account2, Transaction::TYPE_ADD, 80);
+        $this->transactionService->doTransaction($bank_account2,  [
+            'type' => Transaction::TYPE_ADD, 'amount' => 1, 'city' => 'CDMX'
+        ]);;
+        $this->transactionService->doTransaction($bank_account2,  [
+            'type' => Transaction::TYPE_SUBTRACT, 'amount' => 19, 'city' => 'CDMX'
+        ]);
+        $this->transactionService->doTransaction($bank_account2,  [
+            'type' => Transaction::TYPE_ADD, 'amount' => 80, 'city' => 'CDMX'
+        ]);
 
         $this->transactionService->setOwner($bank_account4->owner);
-        $this->transactionService->doTransaction($bank_account4, Transaction::TYPE_ADD, 33);
+        $this->transactionService->doTransaction($bank_account4,  [
+            'type' => Transaction::TYPE_ADD, 'amount' => 33, 'city' => 'CDMX'
+        ]);
 
         $this->transactionService->setOwner($bank_account5->owner);
-        $this->transactionService->doTransaction($bank_account5, Transaction::TYPE_ADD, 23);
+        $this->transactionService->doTransaction($bank_account5,  [
+            'type' => Transaction::TYPE_ADD, 'amount' => 23, 'city' => 'CDMX'
+        ]);
 
         // Add a transaction from one month ago
         $t = Transaction::factory()->create();

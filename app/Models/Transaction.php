@@ -9,7 +9,7 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type', 'amount'];
+    protected $fillable = ['type', 'amount', 'city'];
 
     const TYPE_ADD = 'ADD';
     const TYPE_SUBTRACT = 'SUBTRACT';

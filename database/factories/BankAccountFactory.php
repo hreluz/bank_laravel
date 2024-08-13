@@ -20,6 +20,7 @@ class BankAccountFactory extends Factory
     {
         return [
             'balance' => rand(1,1000),
+            'city' => fake()->city(),
             'owner_id' =>   fn() => User::factory()->create()->id,
             'company_id' =>   fn() => Company::factory()->create()->id,
         ];

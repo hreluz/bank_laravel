@@ -32,7 +32,11 @@ class TransactionServiceTest extends TestCase
     public function test_it_can_add_amount_for_user()
     {
         $bank_account = $this->createBankAccountForUser($this->owner);
-        $this->transactionService->doTransaction($bank_account, Transaction::TYPE_ADD, 100);
+        $this->transactionService->doTransaction($bank_account, [
+            'type' => Transaction::TYPE_ADD,
+            'amount' => 100,
+            'city' => 'Madrid'
+        ]);
 
         $this->assertDatabaseCount('transactions', 1);
 
@@ -53,7 +57,11 @@ class TransactionServiceTest extends TestCase
     {
         $bank_account = $this->createBankAccountForUser($this->owner, 100);
 
-        $this->transactionService->doTransaction($bank_account, Transaction::TYPE_SUBTRACT, 100);
+        $this->transactionService->doTransaction($bank_account,  [
+            'type' => Transaction::TYPE_SUBTRACT,
+            'amount' => 100,
+            'city' => 'Barcelona'
+        ]);
 
         $this->assertDatabaseCount('transactions', 1);
 
@@ -73,7 +81,11 @@ class TransactionServiceTest extends TestCase
     {
         $bank_account = $this->createBankAccountForUser($this->owner, 20);
 
-        $this->transactionService->doTransaction($bank_account, Transaction::TYPE_SUBTRACT, 100);
+        $this->transactionService->doTransaction($bank_account,  [
+            'type' => Transaction::TYPE_SUBTRACT,
+            'amount' => 100,
+            'city' => 'Hong Kong'
+        ]);
 
         $this->assertDatabaseCount('transactions', 0);
 
@@ -89,7 +101,11 @@ class TransactionServiceTest extends TestCase
         $company = Company::factory()->create(['owner_id' => $this->owner->id]);
         $bank_account = $this->createBankAccountForCompany($company);
 
-        $this->transactionService->doTransaction($bank_account, Transaction::TYPE_ADD, 100);
+        $this->transactionService->doTransaction($bank_account,  [
+            'type' => Transaction::TYPE_ADD,
+            'amount' => 100,
+            'city' => 'Tokyo'
+        ]);
 
         $this->assertDatabaseCount('transactions', 1);
 
@@ -111,7 +127,11 @@ class TransactionServiceTest extends TestCase
         $company = Company::factory()->create(['owner_id' => $this->owner->id]);
         $bank_account = $this->createBankAccountForCompany($company, 100);
 
-        $this->transactionService->doTransaction($bank_account, Transaction::TYPE_SUBTRACT, 100);
+        $this->transactionService->doTransaction($bank_account,  [
+            'type' => Transaction::TYPE_SUBTRACT,
+            'amount' => 100,
+            'city' => 'Nairobi'
+        ]);
 
         $this->assertDatabaseCount('transactions', 1);
 
@@ -133,7 +153,11 @@ class TransactionServiceTest extends TestCase
         $company = Company::factory()->create(['owner_id' => $this->owner->id]);
         $bank_account = $this->createBankAccountForCompany($company, 20);
 
-        $this->transactionService->doTransaction($bank_account, Transaction::TYPE_SUBTRACT, 100);
+        $this->transactionService->doTransaction($bank_account,  [
+            'type' => Transaction::TYPE_SUBTRACT,
+            'amount' => 100,
+            'city' => 'San Juan'
+        ]);
 
         $this->assertDatabaseCount('transactions', 0);
 
@@ -152,7 +176,11 @@ class TransactionServiceTest extends TestCase
 
         $this->expectException(HttpException::class);
         $this->expectExceptionMessage('Unauthorized action.');
-        $this->transactionService->doTransaction($bank_account, Transaction::TYPE_ADD, 100);
+        $this->transactionService->doTransaction($bank_account,  [
+            'type' => Transaction::TYPE_ADD,
+            'amount' => 100,
+            'city' => 'Paris'
+        ]);
     }
 
     public function test_multiple_transactions()
@@ -162,14 +190,26 @@ class TransactionServiceTest extends TestCase
 
         DB::beginTransaction();
         $_bank_account = BankAccount::where('id', $bank_account_id)->lockForUpdate()->first();
-        $this->transactionService->doTransaction($_bank_account, Transaction::TYPE_SUBTRACT, 500);
+        $this->transactionService->doTransaction($_bank_account,  [
+            'type' => Transaction::TYPE_SUBTRACT,
+            'amount' => 500,
+            'city' => 'Amsterdam'
+        ]);
         $otherTransactionExecuted = false;
 
         DB::transaction(function () use ($bank_account_id, &$otherTransactionExecuted) {
             $otherTransactionExecuted = true;
             $__bank_account = BankAccount::where('id', $bank_account_id)->lockForUpdate()->first();
-            $this->transactionService->doTransaction($__bank_account, Transaction::TYPE_SUBTRACT, 600);
-            $this->transactionService->doTransaction($__bank_account, Transaction::TYPE_SUBTRACT, 300);
+            $this->transactionService->doTransaction($__bank_account,  [
+                'type' => Transaction::TYPE_SUBTRACT,
+                'amount' => 600,
+                'city' => 'Madrid'
+            ]);
+            $this->transactionService->doTransaction($__bank_account,  [
+                'type' => Transaction::TYPE_SUBTRACT,
+                'amount' => 300,
+                'city' => 'Quito'
+            ]);
         });
 
         DB::commit();

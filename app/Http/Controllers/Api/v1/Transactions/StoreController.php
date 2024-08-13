@@ -13,10 +13,10 @@ class StoreController extends Controller
 {
     public function store(StoreRequest $request, BankAccount $bank_account)
     {
-        $fields = $request->only(['amount', 'type']);
+        $fields = $request->only(['amount', 'type', 'city']);
 
         [$success, $transaction] = (new TransactionService(auth()->user()))
-                                        ->doTransaction($bank_account,  $fields['type'], $fields['amount']);
+                                        ->doTransaction($bank_account, $fields);
 
         return response()->json([
             'success'  => $success,

@@ -9,6 +9,8 @@ class BankAccount extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['city'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

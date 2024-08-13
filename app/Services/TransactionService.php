@@ -25,13 +25,17 @@ class TransactionService
         $this->owner = $owner;
     }
 
-    public function doTransaction(BankAccount $bank_account, string $type, int $amount)
+    public function doTransaction(BankAccount $bank_account, array $fields)
     {
+        $amount = $fields['amount'];
+        $type = $fields['type'];
+        $city = $fields['city'];
+
         if (!Gate::forUser($this->owner)->allows('isOwner', [Transaction::class, $bank_account]) || $amount <= 0) {
             abort(403, 'Unauthorized action.');
         }
 
-        return DB::transaction(function () use ($bank_account, $type, $amount) {
+        return DB::transaction(function () use ($bank_account, $type, $amount, $city) {
 
             $locked_bank_account = BankAccount::where('id', $bank_account->id)->lockForUpdate()->first();
 
@@ -41,7 +45,8 @@ class TransactionService
 
             $transaction = $locked_bank_account->transactions()->create([
                 'type' => $type,
-                'amount' => $amount
+                'amount' => $amount,
+                'city' => $city
             ]);
 
             $locked_bank_account->addToBalance($amount, $type);

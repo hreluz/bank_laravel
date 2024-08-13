@@ -18,6 +18,7 @@ class BankAccountStoreControllerTest extends BaseApiTestCase
         $this->authAs($user);
 
         $response = $this->postJson(route('api.v1.bank_accounts.store'), [
+            'city' => 'Lima',
             'owner_id' => $user->id
         ])
             ->assertOk();
@@ -33,14 +34,15 @@ class BankAccountStoreControllerTest extends BaseApiTestCase
     {
         $user = User::factory()->create();
 
-        (new BankAccountService())->createAccount($user);
+        (new BankAccountService())->createAccount($user, 'Lima');
 
         $this->assertDatabaseCount('bank_accounts', 1);
 
         $this->authAs($user);
 
         $this->postJson(route('api.v1.bank_accounts.store'), [
-            'owner_id' => $user->id
+            'owner_id' => $user->id,
+            'city' => 'Berlin',
         ])->assertForbidden();
     }
 
@@ -52,7 +54,8 @@ class BankAccountStoreControllerTest extends BaseApiTestCase
         $this->authAs($user);
 
         $this->postJson(route('api.v1.bank_accounts.store'), [
-            'company_id' => $company->id
+            'company_id' => $company->id,
+            'city' => 'Buenos Aires'
         ])
             ->assertOk()
             ->assertJsonStructure([
@@ -68,7 +71,7 @@ class BankAccountStoreControllerTest extends BaseApiTestCase
         $company = Company::factory()->create(['owner_id' => $user->id]);
         $this->authAs($user);
 
-        (new BankAccountService())->createAccount($user, $company->id);
+        (new BankAccountService())->createAccount($user, 'New York', $company->id);
 
         $this->postJson(route('api.v1.bank_accounts.store'), [
             'company_id' => $company->id

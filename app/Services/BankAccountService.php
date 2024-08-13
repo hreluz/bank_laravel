@@ -10,19 +10,22 @@ class BankAccountService
 {
     /**
      * @param User $owner
-     * @param $company_id
+     * @param string $city
+     * @param null $company_id
      * @return BankAccount
      */
-    public function createAccount(User $owner, $company_id = null): BankAccount
+    public function createAccount(User $owner, string $city, $company_id = null): BankAccount
     {
         if (!Gate::forUser($owner)->allows('create', [BankAccount::class, $company_id])) {
             abort(403, 'Unauthorized action.');
         }
 
         if ($company_id != null) {
-            return $owner->companies()->find($company_id)?->bank_account()->create([]);
+            $query =  $owner->companies()->find($company_id)?->bank_account();
+        } else {
+            $query = $owner->bank_account();
         }
 
-        return $owner->bank_account()->create([]);
+        return $query->create(['city' => $city]);
     }
 }

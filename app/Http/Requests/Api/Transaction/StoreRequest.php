@@ -26,6 +26,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'amount' => ['required','numeric','min:0','not_in:0'],
+            'city' => ['required'],
             'type' => [
                 Rule::in([Transaction::TYPE_ADD, Transaction::TYPE_SUBTRACT]),
             ]

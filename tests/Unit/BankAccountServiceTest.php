@@ -28,7 +28,7 @@ class BankAccountServiceTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $bank_account = $this->bankAccountService->createAccount($user);
+        $bank_account = $this->bankAccountService->createAccount($user, 'Rome');
 
         $this->assertEquals($bank_account->owner_id, $user->id);
 
@@ -43,12 +43,12 @@ class BankAccountServiceTest extends TestCase
     {
         $user = User::factory()->create();
 
-        (new BankAccountService())->createAccount($user);
+        (new BankAccountService())->createAccount($user, 'Washington DC');
 
         $this->expectException(HttpException::class);
         $this->expectExceptionMessage('Unauthorized action.');
 
-        $this->bankAccountService->createAccount($user);
+        $this->bankAccountService->createAccount($user, 'Florida');
     }
 
     public function test_it_can_create_a_bank_account_for_a_company()
@@ -56,7 +56,7 @@ class BankAccountServiceTest extends TestCase
         $user = User::factory()->create();
         $company = Company::factory()->create(['owner_id' => $user->id]);
 
-        $bank_account = $this->bankAccountService->createAccount($user, $company->id);
+        $bank_account = $this->bankAccountService->createAccount($user, 'Panama',$company->id);
 
         $this->assertEquals($bank_account->company_id, $company->id);
 
@@ -71,11 +71,11 @@ class BankAccountServiceTest extends TestCase
     {
         $user = User::factory()->create();
         $company = Company::factory()->create(['owner_id' => $user->id]);
-        $this->bankAccountService->createAccount($user, $company->id);
+        $this->bankAccountService->createAccount($user, 'Medellin', $company->id);
 
         $this->expectException(HttpException::class);
         $this->expectExceptionMessage('Unauthorized action.');
 
-        $this->bankAccountService->createAccount($user, $company->id);
+        $this->bankAccountService->createAccount($user, 'Bogota', $company->id);
     }
 }

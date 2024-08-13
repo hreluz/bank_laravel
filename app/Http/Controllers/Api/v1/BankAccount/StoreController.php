@@ -16,11 +16,11 @@ class StoreController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $fields = $request->only(['company_id']);
+        $fields = $request->only(['company_id', 'city']);
 
         $company_id = !empty($fields['company_id']) ? $fields['company_id'] : null;
 
-        $bank_account = (new  BankAccountService)->createAccount(auth()->user(), $company_id);
+        $bank_account = (new  BankAccountService)->createAccount(auth()->user(),  $fields['city'], $company_id);
 
         return response()->json([
             'success'  => true,
