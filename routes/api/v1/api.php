@@ -30,6 +30,9 @@ Route::group([
 
                 Route::post('', [\App\Http\Controllers\Api\v1\BankAccount\StoreController::class, 'store'])
                     ->name('store');
+
+                Route::get('{bank_account}', [\App\Http\Controllers\Api\v1\BankAccount\GetBalanceController::class, 'get_balance'])
+                    ->name('balance');
             });
 
         Route::name('transactions.')
