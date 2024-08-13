@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\BankAccount;
 use App\Models\User;
 
 class BankAccountPolicy
@@ -29,5 +30,19 @@ class BankAccountPolicy
         }
 
         return $user->bank_account()->exists() == false;
+    }
+
+    /**
+     * @param User $user
+     * @param BankAccount $bank_account
+     * @return bool
+     */
+    public function isOwner(User $user, BankAccount $bank_account): bool
+    {
+        if ($bank_account->owner_id > 0) {
+            return $bank_account->owner_id == $user->id;
+        }
+
+        return $bank_account->company->owner->id == $user->id;
     }
 }

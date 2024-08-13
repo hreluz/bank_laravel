@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Http\Resources\Reports\ClientListMonthCollection;
 use App\Http\Resources\Reports\Transactions10KCollection;
+use App\Http\Resources\Transaction\TransactionResource;
 use App\Models\BankAccount;
 use App\Models\Transaction;
 use Carbon\Carbon;
@@ -57,5 +58,20 @@ class TransactionRepository
             ->get();
 
         return new Transactions10KCollection($transactions, $bank_accounts);
+    }
+
+    /**
+     * @param BankAccount $bankAccount
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function recentTransactions(BankAccount $bank_account)
+    {
+        $transactions = Transaction::where('bank_account_id', $bank_account->id)
+            ->take(5)
+            ->orderBy('created_at', 'DESC')
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return TransactionResource::collection($transactions);
     }
 }

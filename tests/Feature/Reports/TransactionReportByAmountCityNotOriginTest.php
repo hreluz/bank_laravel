@@ -67,8 +67,8 @@ class TransactionReportByAmountCityNotOriginTest extends BaseApiTestCase
         ]);
 
         $user = User::factory()->create();
-        $this->authAs($user);
 
+        $this->authAs($user);
 
         $response = $this->getJson(route('api.v1.reports.transactions.filtered.by.10k.and.city'))->assertOk();
 

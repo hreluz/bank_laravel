@@ -38,6 +38,9 @@ Route::group([
 
                 Route::post('{bank_account}', [\App\Http\Controllers\Api\v1\Transactions\StoreController::class, 'store'])
                     ->name('store');
+
+                Route::get('recent/{bank_account}', [\App\Http\Controllers\Api\v1\Transactions\ListRecentController::class, 'list_recent'])
+                    ->name('recent');
             });
 
         Route::name('reports.')

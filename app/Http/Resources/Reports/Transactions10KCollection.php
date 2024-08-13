@@ -26,12 +26,12 @@ class Transactions10KCollection extends ResourceCollection
     {
         $data = [];
         foreach ($this->collection as $transaction) {
-
+            $bank_account = $this->bank_accounts->find($transaction->bank_account_id);
             $data[] = [
                 'bank_account_id' => $transaction->bank_account_id,
                 'total_withdrawal' => $transaction->total_withdrawal,
-                'origin_city' => $transaction->bank_account->city,
-                'owner' => UserResource::make($this->bank_accounts->find($transaction->bank_account_id)->owner)
+                'origin_city' => $bank_account->city,
+                'owner' => UserResource::make($bank_account->owner)
             ];
         }
         return $data;
